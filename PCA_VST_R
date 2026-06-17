@@ -1,0 +1,63 @@
+library(DESeq2)
+library(ggplot2)
+library(readxl)
+
+setwd("D:/")
+
+count_data <- read_excel("GENE.COUNT.xlsm")
+count_matrix <- as.matrix(count_data[, 2:13])
+rownames(count_matrix) <- count_data$gene_id
+
+sample_names <- colnames(count_matrix)
+col_data <- data.frame(
+  row.names = sample_names,
+  cellLine = ifelse(grepl("U87", sample_names), "U87", "SH-SY5Y"),
+  condition = ifelse(grepl("siMATR3", sample_names), "KD", "Control")
+)
+
+dds <- DESeqDataSetFromMatrix(
+  countData = count_matrix,
+  colData = col_data,
+  design = ~ cellLine + condition
+)
+
+keep <- rowSums(counts(dds)) >= 10
+dds <- dds[keep, ]
+
+vsd <- vst(dds, blind = TRUE)
+
+vst_data <- assay(vsd)
+
+gene_var <- apply(vst_data, 1, var)
+vst_data_filtered <- vst_data[gene_var > 0, ]
+
+pca <- prcomp(t(vst_data_filtered), center = TRUE, scale. = TRUE)
+var_explained <- round(100 * (pca$sdev^2 / sum(pca$sdev^2)), 2)
+
+pca_data <- data.frame(
+  Sample = rownames(pca$x),
+  PC1 = pca$x[, 1],
+  PC2 = pca$x[, 2],
+  CellLine = col_data$cellLine,
+  Condition = col_data$condition
+)
+
+p <- ggplot(pca_data, aes(x = PC1, y = PC2, color = CellLine, shape = Condition)) +
+  geom_point(size = 2.5, stroke = 0.8) +
+  scale_color_manual(values = c("SH-SY5Y" = "#1a6faf", "U87" = "#f5c800"), name = "Cell Line") +
+  scale_shape_manual(values = c("Control" = 16, "KD" = 17), name = "Condition") +
+  xlab(paste0("PC1 (", var_explained[1], "%)")) +
+  ylab(paste0("PC2 (", var_explained[2], "%)")) +
+  theme_classic(base_size = 11) +
+  theme(
+    plot.title = element_blank(),
+    legend.position = "right",
+    legend.background = element_rect(color = "gray80", linewidth = 0.5),
+    legend.margin = margin(10, 10, 10, 10)
+  )
+
+print(p)
+ggsave("PCA_VST_improved.tiff", width = 13, height = 10, units = "cm", dpi = 300)
+
+print(paste("PC1:", var_explained[1], "%"))
+print(paste("PC2:", var_explained[2], "%"))
