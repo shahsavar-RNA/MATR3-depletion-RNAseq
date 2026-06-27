@@ -3,7 +3,7 @@
 ## Panels:
 ##   a) Bar chart of significant splicing events per class (SE, A3SS, A5SS, MXE, RI)
 ##   b) Venn diagram of genes with shared splicing alterations (SH-SY5Y vs U87)
-## Output: single combined figure (Fig5_Splicing_combined.tiff / .pdf)
+## Output: single combined figure (Fig6_Splicing_combined.tiff / .pdf)
 
 library(ggplot2)
 library(ggforce)
@@ -11,7 +11,6 @@ library(patchwork)
 
 setwd("D:/")
 
-## ---- 0b. Journal-standard font settings (same constants used in Fig 3 & 4) --
 FIG_FONT          <- "sans"
 TITLE_SIZE        <- 10
 TITLE_FACE        <- "bold"
@@ -102,9 +101,9 @@ final_fig <- (pA + pB) +
   theme(plot.tag = element_text(size = TAG_SIZE, face = "bold", family = FIG_FONT))
 
 ## ---- 4. Save -----------------------------------------------------------------
-ggsave("Fig5_Splicing_combined.tiff", plot = final_fig,
+ggsave("Fig6_Splicing_combined.tiff", plot = final_fig,
        width = 20, height = 10, units = "cm", dpi = 300, compression = "lzw")
-ggsave("Fig5_Splicing_combined.pdf", plot = final_fig,
+ggsave("Fig6_Splicing_combined.pdf", plot = final_fig,
        width = 20, height = 10, units = "cm", dpi = 300)
 
 message("Done. Saved Fig5_Splicing_combined.tiff and .pdf")
