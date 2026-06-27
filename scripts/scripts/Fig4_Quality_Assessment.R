@@ -1,5 +1,5 @@
 ## =============================================================================
-## Figure 3 — Quality assessment and reproducibility of bulk RNA-seq datasets
+## Figure 4 — Quality assessment and reproducibility of bulk RNA-seq datasets
 library(DESeq2)
 library(ggplot2)
 library(readxl)
@@ -143,9 +143,9 @@ final_fig <- (pA + pB) +
   theme(plot.tag = element_text(size = TAG_SIZE, face = "bold", family = FIG_FONT))
 
 ## ---- 4. Save -----------------------------------------------------------------
-ggsave("Fig3_PCA_Correlation_combined.tiff", plot = final_fig,
+ggsave("Fig4_PCA_Correlation_combined.tiff", plot = final_fig,
        width = 27, height = 12, units = "cm", dpi = 600, compression = "lzw")
-ggsave("Fig3_PCA_Correlation_combined.pdf", plot = final_fig,
+ggsave("Fig4_PCA_Correlation_combined.pdf", plot = final_fig,
        width = 27, height = 12, units = "cm", dpi = 600)
 
 message("Done. Saved Fig3_PCA_Correlation_combined.tiff and .pdf")
