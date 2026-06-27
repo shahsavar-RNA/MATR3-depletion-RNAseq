@@ -11,7 +11,6 @@ library(patchwork)
 
 setwd("D:/")
 
-## ---- 0b. Journal-standard font settings (same constants used in Fig 3, 4, 5) ----
 FIG_FONT          <- "sans"
 TITLE_SIZE        <- 10
 TITLE_FACE        <- "bold"
@@ -50,7 +49,8 @@ up_u87   <- sum(mirna_u87$regulation == "UP")
 down_u87 <- sum(mirna_u87$regulation == "DOWN")
 no_u87   <- sum(mirna_u87$regulation == "NO")
 
-## ---- 2. Shared volcano theme (matches Fig 3/4/5 standard) -------------------
+## ---- 2. Shared volcano theme 
+
 volcano_theme <- theme_classic(base_size = AXIS_TEXT_SIZE, base_family = FIG_FONT) +
   theme(
     plot.background  = element_rect(fill = "white", color = NA),
