@@ -1,9 +1,5 @@
 ## =============================================================================
 ## Figure 3 — Quality assessment and reproducibility of bulk RNA-seq datasets
-## Panels:
-##   a) PCA of VST-transformed expression data (PC1 vs PC2)
-##   b) Pairwise Pearson correlation heatmap across all 12 samples
-## Output: single combined figure (Fig3_PCA_Correlation_combined.tiff / .pdf)
 library(DESeq2)
 library(ggplot2)
 library(readxl)
@@ -61,7 +57,7 @@ pca_data <- data.frame(
 )
 
 pA <- ggplot(pca_data, aes(x = PC1, y = PC2, color = CellLine, shape = Condition)) +
-  geom_point(size = 2.8, stroke = 0.75) +
+  geom_point(size = 3.4, stroke = 0.8) +
   scale_color_manual(
     values = c("SH-SY5Y" = "#1a6faf", "U87" = "#f5c800"),
     name = "Cell line"
@@ -142,7 +138,7 @@ pB <- as.ggplot(pB_grob)
 ##   - if panel b looks too wide, decrease the second number (e.g. 1.3 -> 1.15)
 ##   - if panel b looks too narrow, increase it (e.g. 1.3 -> 1.45)
 final_fig <- (pA + pB) +
-  plot_layout(widths = c(0.8, 1.7)) +
+  plot_layout(widths = c(1, 1.7)) +
   plot_annotation(tag_levels = "a") &
   theme(plot.tag = element_text(size = TAG_SIZE, face = "bold", family = FIG_FONT))
 
